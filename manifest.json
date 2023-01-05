@@ -1,0 +1,39 @@
+{
+  "name": "UBC Auto-Calendar",
+  "version": "0.0.1",
+  "description": "Adds all your UBC courses to your Google Calendar with one-click",
+  "manifest_version": 3,
+  "permissions": [
+    "storage",
+    "tabs",
+    "identity"
+  ],
+  "host_permissions": ["https://courses.students.ubc.ca/cs/courseschedule?pname=timetable&tname=timetable*"],
+  "background": {
+      "service_worker": "background.js"
+  },
+  "content_scripts": [{
+    "matches": ["https://courses.students.ubc.ca/cs/courseschedule?pname=timetable&tname=timetable*"],
+    "js": ["contentScript.js"]
+  }],
+  "icons": {
+      "16": "/icons/get_started16.png",
+      "32": "/icons/get_started32.png",
+      "48": "/icons/get_started48.png",
+      "128": "/icons/get_started128.png"
+  },
+  "action": {
+    "default_popup": "/popup/index.html",
+    "default_icon": {
+      "16": "/icons/get_started16.png",
+      "32": "/icons/get_started32.png",
+      "48": "/icons/get_started48.png",
+      "128": "/icons/get_started128.png"
+    }
+  },
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAw+uDl13kr0kwhWMZDp8ULmn4E5iae+qnr1RQRRvjLBnLiq2NH23rsy0WT5igWqLJKfPrizTXNL1/1FFfBBQWboep1hokO5XdhaJt5T4LBf38aw97pWH+5ZbNnHD1Wan20Ekg5BxFuU4qUrU3xeIal/gmBKkJVQM7a/eX0kmsZ4i0Xhjgpuo2sNgDaGrbURcdFdpcVO+fhWr7/fuZiq94NqgkFCLChMergi0hrdzqETpgTmP3UuH/J+d/Wcp0t/yrsS/7LoldLA6e5D5fi+rvlzX8njhbI/d4Czf0YlvhSWxcH7XRsw+QRVkqsb/drWX1AGnN8jb2uwFJUC0GxMsFKQIDAQAB",
+  "oauth2": {
+    "client_id": "498060025169-sic54btb6fm0kpapisbng9ps6709gib7.apps.googleusercontent.com",
+    "scopes": ["profile"]
+  }
+}
