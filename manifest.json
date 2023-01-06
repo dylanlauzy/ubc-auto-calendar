@@ -9,7 +9,10 @@
     "identity",
     "identity.email"
   ],
-  "host_permissions": ["https://courses.students.ubc.ca/cs/courseschedule?pname=timetable&tname=timetable*"],
+  "host_permissions": [
+    "https://courses.students.ubc.ca/cs/courseschedule?pname=timetable&tname=timetable*",
+    "https://www.googleapis.com/calendar/v3/*"
+  ],
   "background": {
       "service_worker": "background.js"
   },
@@ -24,7 +27,7 @@
       "128": "/icons/get_started128.png"
   },
   "action": {
-    "default_popup": "/popup/index.html",
+    "default_popup": "src/index.html",
     "default_icon": {
       "16": "/icons/get_started16.png",
       "32": "/icons/get_started32.png",
@@ -36,8 +39,7 @@
   "oauth2": {
     "client_id": "498060025169-sic54btb6fm0kpapisbng9ps6709gib7.apps.googleusercontent.com",
     "scopes": [
-      "profile email",
-      "https://www.googleapis.com/auth/calendar",
+      "email profile",
       "https://www.googleapis.com/auth/calendar.readonly"
     ]
   }
