@@ -6,7 +6,8 @@
   "permissions": [
     "storage",
     "tabs",
-    "identity"
+    "identity",
+    "identity.email"
   ],
   "host_permissions": ["https://courses.students.ubc.ca/cs/courseschedule?pname=timetable&tname=timetable*"],
   "background": {
@@ -34,6 +35,10 @@
   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAw+uDl13kr0kwhWMZDp8ULmn4E5iae+qnr1RQRRvjLBnLiq2NH23rsy0WT5igWqLJKfPrizTXNL1/1FFfBBQWboep1hokO5XdhaJt5T4LBf38aw97pWH+5ZbNnHD1Wan20Ekg5BxFuU4qUrU3xeIal/gmBKkJVQM7a/eX0kmsZ4i0Xhjgpuo2sNgDaGrbURcdFdpcVO+fhWr7/fuZiq94NqgkFCLChMergi0hrdzqETpgTmP3UuH/J+d/Wcp0t/yrsS/7LoldLA6e5D5fi+rvlzX8njhbI/d4Czf0YlvhSWxcH7XRsw+QRVkqsb/drWX1AGnN8jb2uwFJUC0GxMsFKQIDAQAB",
   "oauth2": {
     "client_id": "498060025169-sic54btb6fm0kpapisbng9ps6709gib7.apps.googleusercontent.com",
-    "scopes": ["profile"]
+    "scopes": [
+      "profile email",
+      "https://www.googleapis.com/auth/calendar",
+      "https://www.googleapis.com/auth/calendar.readonly"
+    ]
   }
 }
