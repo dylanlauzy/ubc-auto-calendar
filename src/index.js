@@ -1,9 +1,9 @@
-import axios from "axios"
+import axios from "axios";
 
-const API_URL = "https://www.googleapis.com/calendar/v3/users/me/"
-const button = document.querySelector("button");
+const API_URL = "https://www.googleapis.com/calendar/v3/";
+const selectCalBtn = document.getElementById("select-cal");
+const addClassesBtn = document.getElementById("add-classes");
 const calendarList = document.getElementById("calendars");
-
 
 // Retrieve oauth token and handle callback
 const launchAuth = () => {
@@ -29,16 +29,22 @@ const launchAuth = () => {
     { url: authUrl, interactive: true },
     async (responseUrl) => {
       let token = responseUrl.split("=")[1].split("&")[0];
-      const calendars = await retrieveCals(token)
-      const container = document.createElement("div")
 
-      for(let cal of calendars) {
-        const calElem = document.createElement("div")
-        calElem.innerText = cal.summary
-        container.appendChild(calElem)
+      chrome.runtime.sendMessage({ token });
+
+      const calendars = await retrieveCals(token);
+      const container = document.createElement("div");
+
+      for (let cal of calendars) {
+        const calElem = document.createElement("div");
+        calElem.innerText = cal.summary;
+        container.appendChild(calElem);
       }
 
-      calendarList.innerHTML = container.innerHTML
+      calendarList.innerHTML = container.innerHTML;
+
+      const response = addEvent(token)
+      chrome.runtime.sendMessage({ response });
     }
   );
 };
@@ -47,13 +53,50 @@ const launchAuth = () => {
 const retrieveCals = async (token) => {
   const config = {
     headers: {
-      Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.get(API_URL + "users/me/calendarList", config);
+
+  return response.data.items;
+};
+
+// HTTP request to add event to calendar
+const addEvent = async (token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
     }
   }
 
-  const response = await axios.get(API_URL + 'calendarList', config)
+  const data = {
+    summary: "test event",
+    start: {
+      dateTime: '2023-01-06T09:00:00-07:00',
+      timeZone: 'America/Vancouver'
+    },
+    end: {
+      dateTime: '2023-01-06T17:00:00-07:00',
+      timeZone: 'America/Vancouver'
+    },
+    location: "sample location",
+    recurrence: [
+      "RRULE:FREQ=WEEKLY;UNTIL=20230613T170000Z"
+    ]
+  }
 
-  return response.data.items
+  const response = await axios.post(API_URL + "calendars/" + "hqocj30m9ad5ppiu5mr3g68vmo@group.calendar.google.com" + "/events", data, config)
+
+  return response.data
 };
 
-button.addEventListener("click", launchAuth);
+const addClasses = async () => {
+  const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
+  chrome.tabs.sendMessage(tab.id, {
+    type: "RETRIEVE_CLASSES"
+  })
+}
+
+selectCalBtn.addEventListener("click", launchAuth);
+addClassesBtn.addEventListener("click", addClasses)
